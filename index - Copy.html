@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+    <title>Document</title>
+
+    <style>
+        .flip-card {
+            background-color: transparent;
+            width: 200px;
+            height: 250px;
+            perspective: 500px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            background-color: #bbb;
+            color: black;
+        }
+
+        .flip-card-back {
+            background-color: #2980b9;
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
+    <script>
+        var apiData;
+        //confirm the seletion
+        function firstCheck() {
+            var output = '';
+            console.log(document.getElementById("area").value);
+            if (document.getElementById("area").value === "") {
+                alert("Sorry you have to write down your question then continue!");
+            } else {
+                console.log(document.getElementById("spread").value);
+                for (let i = 0; i <= document.getElementById("spread").value; i++) {
+                    const randomNum=Math.floor(Math.random()*Object.keys( apiData ).length);
+                    if (i==1||i==4||i==7) {
+                        output += '<div class="row">' +
+                            '<div class="col-' + i + '"><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="./img/b.PNG" alt="Avatar" style="width:200px;height:250px;"></div><div class="flip-card-back">'
+                        '<img src="' + apiData[randomNum].image + '" alt="' + apiData[randomNum].name + '" style="width:200px;height:250px;"></div></div></div></div>'
+                    }
+                    if (i % 3 == 0) {
+                        output += '</div>'
+                    }
+                    output +=
+                        '<div class="col-' + i + '"><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="./img/b.PNG" alt="Avatar" style="width:200px;height:250px;"></div><div class="flip-card-back">'
+                    '<img src="' + apiData[randomNum].image + '" alt="' + apiData[randomNum].name + '" style="width:200px;height:250px;"></div></div></div></div>'
+
+                }
+                console.log(output)
+                document.getElementById("tarotcard").innerHTML = output;
+            }
+
+
+        }
+
+        function start() {
+            callApi()
+            firstCheck()
+
+        }
+
+
+        //read Json inside
+        function callApi() {
+            var request = new XMLHttpRequest();
+            // 2.設定請求方法與路徑
+            request.open("get", "http://localhost:10888/tarot/getAllCard");  //網站是api的網址或文檔位置
+            console.log()
+            // 3.不傳送資料到伺服器，如果是有要跟backend合作才需要
+            request.send(null);
+            //4.XHR物件獲取到返回資訊後執行,下面這個request.onload必須寫呀還有下面的==200到Json那條，其他格式都差不多用for ll
+            request.onload = function () {
+                if (request.status == 200) {
+                    var data = JSON.parse(request.responseText);
+                    apiData = data;
+                    
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    <!-- navbar-->
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h2">Tarot</span>
+        <div class="btn-group dropleft">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                aria-expanded="false">
+                Dropleft
+            </button>
+            <div class="dropdown-menu">
+                <!-- Dropdown menu links -->
+                <a href="#" alt="a">a</a>
+                <a href="#" alt="b">b</a>
+                <a href="#" alt="c">c</a>
+                <a href="#" alt="d">d</a>
+                <a href="#" alt="e">e</a>
+            </div>
+        </div>
+    </nav>
+
+    <div style="align-content: center;">
+        <h2>1.What is your question?</h2>
+        <input type="textarea" style="width:400px; height:100px;" id="area">
+        <div>
+            <label for="spread">
+                <h2>2.Tarot spread select:</h2>
+            </label>
+            <select name="spread" id="spread">
+                <option value="0">1 card spread</option>
+                <option value="2">3 card spread</option>
+                <option value="3">4 card spread</option>
+                <option value="4">5 card spread</option>
+                <option value="5">6 card spread</option>
+            </select>
+            <button type="button" name="confirm" onclick="start()">Confirm</button>
+        </div>
+
+        <!-- tarot card -->
+        <div class="container" id="tarotcard">
+
+        </div>
+        <!-- tarot spread card end -->
+        <div>
+            <h2>3.Spread Description</h2>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link" id="nav-home-tab" data-toggle="tab" data-target="#nav-home" type="button"
+                        role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                </div>
+
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade " id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>
