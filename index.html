@@ -67,8 +67,8 @@
             } else {
                 console.log(document.getElementById("spread").value);
                 for (let i = 0; i <= document.getElementById("spread").value; i++) {
-                    const randomNum=Math.floor(Math.random()*Object.keys( data ).length);
-                    if (i % 2 != 0) {
+                    const randomNum=Math.floor(Math.random()*Object.keys( apiData ).length);
+                    if (i==1||i==4||i==7) {
                         output += '<div class="row">' +
                             '<div class="col-' + i + '"><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="./img/b.PNG" alt="Avatar" style="width:200px;height:250px;"></div><div class="flip-card-back">'
                         '<img src="' + apiData[randomNum].image + '" alt="' + apiData[randomNum].name + '" style="width:200px;height:250px;"></div></div></div></div>'
