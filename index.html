@@ -67,17 +67,18 @@
             } else {
                 console.log(document.getElementById("spread").value);
                 for (let i = 0; i <= document.getElementById("spread").value; i++) {
+                    const randomNum=Math.floor(Math.random()*Object.keys( data ).length);
                     if (i % 2 != 0) {
                         output += '<div class="row">' +
                             '<div class="col-' + i + '"><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="./img/b.PNG" alt="Avatar" style="width:200px;height:250px;"></div><div class="flip-card-back">'
-                        '<img src="' + apiData[i].image + '" alt="' + apiData[i].name + '" style="width:200px;height:250px;"></div></div></div></div>'
+                        '<img src="' + apiData[randomNum].image + '" alt="' + apiData[randomNum].name + '" style="width:200px;height:250px;"></div></div></div></div>'
                     }
                     if (i % 3 == 0) {
                         output += '</div>'
                     }
                     output +=
                         '<div class="col-' + i + '"><div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="./img/b.PNG" alt="Avatar" style="width:200px;height:250px;"></div><div class="flip-card-back">'
-                    '<img src="' + apiData[i].image + '" alt="' + apiData[i].name + '" style="width:200px;height:250px;"></div></div></div></div>'
+                    '<img src="' + apiData[randomNum].image + '" alt="' + apiData[randomNum].name + '" style="width:200px;height:250px;"></div></div></div></div>'
 
                 }
                 console.log(output)
@@ -107,7 +108,7 @@
                 if (request.status == 200) {
                     var data = JSON.parse(request.responseText);
                     apiData = data;
-                    console.log(9 % 3)
+                    
                 }
             }
         }
